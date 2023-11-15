@@ -1,0 +1,882 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Sebo - PDW",
+        "description": "API para Atividade PDW",
+        "contact": {
+            "nome": "Leonardo Galindo",
+            "RA": "SP3081656"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000"
+        }
+    ],
+    "paths": {
+        "/users/signup": {
+            "post": {
+                "summary": "Cadastro de usuarios",
+                "description": "Responsavel por cadastras novos usuarios",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "administrador": {
+                                    "value": {
+                                        "nome": "Leonardo Galindo",
+                                        "email": "leonardogalindo8@outlook.com",
+                                        "status": "ativo",
+                                        "tipo": "administrador",
+                                        "senha": "123",
+                                        "area": "vendas",
+                                        "data_inicio": "2023-10-02"
+                                    }
+                                },
+                                "usuario_comum": {
+                                    "value": {
+                                        "nome": "Leonardo Galindo",
+                                        "email": "leonardogalindo8@gmail.com",
+                                        "status": "inativo",
+                                        "tipo": "vendedor",
+                                        "senha": "123"
+                                    }
+                                },
+                                "area_data_comum": {
+                                    "value": {
+                                        "nome": "Leonardo Galindo",
+                                        "email": "leonardogalindo8@gmail.com",
+                                        "status": "inativo",
+                                        "tipo": "vendedor",
+                                        "senha": "123",
+                                        "area": "vendas",
+                                        "data_inicio": "2023-10-02"
+                                    }
+                                },
+                                "area_data_admin": {
+                                    "value": {
+                                        "nome": "Leonardo Galindo",
+                                        "email": "leonardogalindo8@gmail.com",
+                                        "status": "inativo",
+                                        "tipo": "administrador",
+                                        "senha": "123"
+                                    }
+                                },
+                                "campos_invalidos": {
+                                    "value": {
+                                        "nome": "Leonardo Galindo",
+                                        "email": "leonardogalindo8@gmail.com",
+                                        "status": "inativo",
+                                        "tipo": "aaaaa",
+                                        "senha": "123"
+                                    }
+                                },
+                                "campos_nao_eviados": {
+                                    "value": {
+                                        "nome": "Leonardo Galindo",
+                                        "email": "leonardogalindo8@gmail.com",
+                                        "status": "inativo",
+                                        "tipo": "vendedor",
+                                        "senha": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Área e data de início não são válidas para tipos diferentes de administrador"
+                    },
+                    "400": {
+                        "description": "Área e data de início são obrigatórias para administradores"
+                    },
+                    "200": {
+                        "description": "Usuário criado com sucesso"
+                    },
+                    "201": {
+                        "description": "Usuário admin criado com sucesso"
+                    },
+                    "411": {
+                        "description": "Campos não enviados"
+                    },
+                    "406": {
+                        "description": "Campos invalidos"
+                    }
+                }
+            }
+        },
+        "/admin/users": {
+            "get": {
+                "description": "Visualizar usuarios",
+                "summary": "Retorna usuarios cadastrados (sem contar os soft delete)",
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuarios"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "put": {
+                "description": "Alterar usuarios",
+                "summary": "Alterar informações de usuarios atraves do id",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do usuario",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "alteracao_comcluida": {
+                                    "value": {
+                                        "nome": "Thiago",
+                                        "email": "thi@outlook.com",
+                                        "status": "ativo",
+                                        "tipo": "administrador",
+                                        "senha": "123",
+                                        "area": "MKT",
+                                        "data_inicio": "2023-10-10"
+                                    }
+                                },
+                                "data_area_admin": {
+                                    "value": {
+                                        "nome": "Thiago",
+                                        "email": "thi@outlook.com",
+                                        "status": "ativo",
+                                        "tipo": "administrador",
+                                        "senha": "123"
+                                    }
+                                },
+                                "data_area_comum": {
+                                    "value": {
+                                        "nome": "Thiago",
+                                        "email": "thi@outlook.com",
+                                        "status": "ativo",
+                                        "tipo": "vendedor",
+                                        "senha": "123",
+                                        "area": "MKT",
+                                        "data_inicio": "2023-10-10"
+                                    }
+                                },
+                                "tipo_invalido": {
+                                    "value": {
+                                        "nome": "Thiago",
+                                        "email": "thi@outlook.com",
+                                        "status": "ativo",
+                                        "tipo": "aaaaa",
+                                        "senha": "123"
+                                    }
+                                },
+                                "campos_nao_eviados": {
+                                    "value": {
+                                        "nome": "Thiago",
+                                        "email": "thi@outlook.com",
+                                        "status": "ativo",
+                                        "tipo": "vendedor",
+                                        "senha": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario alterado com sucesso"
+                    },
+                    "401": {
+                        "description": "Área e data de início não são válidas para tipos diferentes de administrador"
+                    },
+                    "400": {
+                        "description": "Área e data de início são obrigatórias para administradores"
+                    },
+                    "406": {
+                        "description": "Campos invalidos"
+                    },
+                    "411": {
+                        "description": "Campos não enviados"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Soft delete para usuarios",
+                "summary": "Soft delete para usuarios",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Usuario não encontrado ou já excluido"
+                    },
+                    "200": {
+                        "description": "Usuario excluido com sucesso"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "description": "Login de usuario",
+                "summary": "Login de usuario",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "login_bem_sucedido": {
+                                    "value": {
+                                        "email": "leonardogalindo8@gmail.com",
+                                        "senha": "123"
+                                    }
+                                },
+                                "login_nao_realizado": {
+                                    "value": {
+                                        "email": "leonardogalindo8@gmail.com",
+                                        "senha": "1234"
+                                    }
+                                },
+                                "usario_nao_encontrado": {
+                                    "value": {
+                                        "email": "leonardo@gmail.com",
+                                        "senha": "1234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "login bem sucedido"
+                    },
+                    "401": {
+                        "description": "credenciais invalidaas"
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    },
+                    "411": {
+                        "description": "Campos não enviados"
+                    }
+                }
+            }
+        },
+        "/admin/login": {
+            "post": {
+                "description": "Login de admin",
+                "summary": "Login de admin",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "login_bem_sucedido": {
+                                    "value": {
+                                        "email": "leonardogalindo8@outlook.com",
+                                        "senha": "123"
+                                    }
+                                },
+                                "login_nao_realizado": {
+                                    "value": {
+                                        "email": "leonardogalindo8@outlook.com",
+                                        "senha": "1234"
+                                    }
+                                },
+                                "usario_nao_encontrado": {
+                                    "value": {
+                                        "email": "leonardo@gmail.com",
+                                        "senha": "1234"
+                                    }
+                                },
+                                "campos_nao_eviados": {
+                                    "value": {
+                                        "email": "leonardo@gmail.com",
+                                        "senha": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "login bem sucedido"
+                    },
+                    "401": {
+                        "description": "credenciais invalidaas"
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    },
+                    "411": {
+                        "description": "Campos não enviados"
+                    }
+                }
+            }
+        },
+        "/admin/reports": {
+            "get": {
+                "description": "Visualizar quantidade de usuarios",
+                "summary": "Retorna usuarios cadastrados no total",
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Total de usuarios"
+                    },
+                    "500": {
+                        "description": "erro ao contar usuarios"
+                    }
+                }
+            }
+        },
+        "/items": {
+            "post": {
+                "description": "Adicionar um item",
+                "summary": "Adicionar um item",
+                "tags": [
+                    "Itens"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Item"
+                            },
+                            "examples": {
+                                "cadastro com sucesso": {
+                                    "value": {
+                                        "titulo": "A Guerra dos Tronos : As Crônicas de Gelo e Fogo, volume 1",
+                                        "autor": "George R. R. Martin",
+                                        "id_categoria": 2,
+                                        "preco": 20.0,
+                                        "descricao": "A guerra dos tronos é o primeiro livro da série best-seller internacional As Crônicas de Gelo e Fogo, que deu origem à adaptação de sucesso da HBO, Game of Thrones. O verão pode durar décadas. O inverno, toda uma vida. E a guerra dos tronos começou. Como Guardião do Norte, lorde Eddard Stark não fica feliz quando o rei Robert o proclama a nova Mão do Rei. Sua honra o obriga a aceitar o cargo e deixar seu posto em Winterfell para rumar para a corte, onde os homens fazem o que lhes convém, não o que devem... e onde um inimigo morto é algo a ser admirado",
+                                        "status": "ativo",
+                                        "data_edit": "2019-03-25",
+                                        "periodicidade": 2,
+                                        "id_vendedor": 5
+                                    }
+                                },
+                                "status invalido": {
+                                    "value": {
+                                        "titulo": "A Guerra dos Tronos : As Crônicas de Gelo e Fogo, volume 1",
+                                        "autor": "George R. R. Martin",
+                                        "id_categoria": 2,
+                                        "preco": 20.0,
+                                        "descricao": "A guerra dos tronos é o primeiro livro da série best-seller internacional As Crônicas de Gelo e Fogo, que deu origem à adaptação de sucesso da HBO, Game of Thrones. O verão pode durar décadas. O inverno, toda uma vida. E a guerra dos tronos começou. Como Guardião do Norte, lorde Eddard Stark não fica feliz quando o rei Robert o proclama a nova Mão do Rei. Sua honra o obriga a aceitar o cargo e deixar seu posto em Winterfell para rumar para a corte, onde os homens fazem o que lhes convém, não o que devem... e onde um inimigo morto é algo a ser admirado",
+                                        "status": "aaaaaaaaaaaaaa",
+                                        "data_edit": "2019-03-25",
+                                        "periodicidade": 2,
+                                        "id_vendedor": 5
+                                    }
+                                },
+                                "campos não eviados": {
+                                    "value": {
+                                        "titulo": "A Guerra dos Tronos : As Crônicas de Gelo e Fogo, volume 1",
+                                        "autor": "George R. R. Martin",
+                                        "id_categoria": 2,
+                                        "preco": 20.0,
+                                        "descricao": "A guerra dos tronos é o primeiro livro da série best-seller internacional As Crônicas de Gelo e Fogo, que deu origem à adaptação de sucesso da HBO, Game of Thrones. O verão pode durar décadas. O inverno, toda uma vida. E a guerra dos tronos começou. Como Guardião do Norte, lorde Eddard Stark não fica feliz quando o rei Robert o proclama a nova Mão do Rei. Sua honra o obriga a aceitar o cargo e deixar seu posto em Winterfell para rumar para a corte, onde os homens fazem o que lhes convém, não o que devem... e onde um inimigo morto é algo a ser admirado",
+                                        "status": "",
+                                        "data_edit": "2019-03-25",
+                                        "periodicidade": 2,
+                                        "id_vendedor": 5
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item cadastrado com sucesso"
+                    },
+                    "401": {
+                        "description": "status invalido"
+                    },
+                    "400": {
+                        "description": "Campos não enviados"
+                    }
+                }
+            },
+            "get": {
+                "description": "Retorna itens",
+                "summary": "Retorna lista de itens",
+                "tags": [
+                    "Itens"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de itens"
+                    }
+                }
+            }
+        },
+        "/items/{id}": {
+            "put": {
+                "description": "Alterar item",
+                "summary": "Alterar informações de item atraves do id",
+                "tags": [
+                    "Itens"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do item",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Item"
+                            },
+                            "examples": {
+                                "alteração concluida": {
+                                    "value": {
+                                        "titulo": "A Fúria dos Reis. As Crônicas de Gelo e Fogo",
+                                        "autor": "George R. R. Martin",
+                                        "id_categoria": 2,
+                                        "preco": 23.0,
+                                        "descricao": "Em A fúria dos reis, o segundo livro da aclamada série As crônicas de gelo e fogo, George R. R. Martin segue a épica aventura nos Sete Reinos, onde muitos perigos e disputas ainda estão por vir. Além dos combates que se estendem por todos os lados, a ameaça agora também chega pelo céu! Mistério, intriga, romance e aventura encherão as páginas deste livro, agora também um seriado de sucesso da HBO!",
+                                        "status": "inativo",
+                                        "data_edit": "2019-03-15",
+                                        "periodicidade": 2,
+                                        "id_vendedor": 6
+                                    }
+                                },
+                                "status invalido": {
+                                    "value": {
+                                        "titulo": "A Fúria dos Reis. As Crônicas de Gelo e Fogo",
+                                        "autor": "George R. R. Martin",
+                                        "id_categoria": 2,
+                                        "preco": 23.0,
+                                        "descricao": "Em A fúria dos reis, o segundo livro da aclamada série As crônicas de gelo e fogo, George R. R. Martin segue a épica aventura nos Sete Reinos, onde muitos perigos e disputas ainda estão por vir. Além dos combates que se estendem por todos os lados, a ameaça agora também chega pelo céu! Mistério, intriga, romance e aventura encherão as páginas deste livro, agora também um seriado de sucesso da HBO!",
+                                        "status": "nao tem no estoque",
+                                        "data_edit": "2019-03-15",
+                                        "periodicidade": 2,
+                                        "id_vendedor": 6
+                                    }
+                                },
+                                "campos não enviados": {
+                                    "value": {
+                                        "titulo": "A Fúria dos Reis. As Crônicas de Gelo e Fogo",
+                                        "autor": "",
+                                        "id_categoria": 2,
+                                        "preco": 23.0,
+                                        "descricao": "Em A fúria dos reis, o segundo livro da aclamada série As crônicas de gelo e fogo, George R. R. Martin segue a épica aventura nos Sete Reinos, onde muitos perigos e disputas ainda estão por vir. Além dos combates que se estendem por todos os lados, a ameaça agora também chega pelo céu! Mistério, intriga, romance e aventura encherão as páginas deste livro, agora também um seriado de sucesso da HBO!",
+                                        "status": "inativo",
+                                        "data_edit": "2019-03-15",
+                                        "periodicidade": 2,
+                                        "id_vendedor": 6
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item alterado com sucesso"
+                    },
+                    "401": {
+                        "description": "Status invalido"
+                    },
+                    "400": {
+                        "description": "Campos não enviados"
+                    }
+                }
+            },
+            "get": {
+                "description": "Retorna info de um item especifico",
+                "summary": "Detalhes sobre item especifico",
+                "tags": [
+                    "Itens"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do item",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item encontrado"
+                    },
+                    "400": {
+                        "description": "Item não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Soft delete para items",
+                "summary": "Soft delete para items",
+                "tags": [
+                    "Itens"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do item",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Item não encontrado ou já excluido"
+                    },
+                    "200": {
+                        "description": "Item excluido com sucesso"
+                    }
+                }
+            }
+        },
+        "/categories": {
+            "post": {
+                "description": "Adicionar categoria",
+                "summary": "Adicionar categoria",
+                "tags": [
+                    "Categoria"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Categoria"
+                            },
+                            "examples": {
+                                "categoria adicionada com sucesso": {
+                                    "value": {
+                                        "nome": "Jornal",
+                                        "descricao": "Categoria de Jornal"
+                                    }
+                                },
+                                "campos não eviados": {
+                                    "value": {
+                                        "nome": "",
+                                        "descricao": "Categoria de Jornal"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Catgoria adicionada com sucesso"
+                    },
+                    "400": {
+                        "description": "Campos não enviados"
+                    }
+                }
+            },
+            "get": {
+                "description": "Lista as categorias",
+                "summary": "Lista as categorias",
+                "tags": [
+                    "Categoria"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de categorias"
+                    }
+                }
+            }
+        },
+        "/categories/{id}": {
+            "put": {
+                "description": "Alterar categoria",
+                "summary": "Alterar informações de categoria atraves do id",
+                "tags": [
+                    "Categoria"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da categoria",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Categoria"
+                            },
+                            "examples": {
+                                "alteração concluida": {
+                                    "value": {
+                                        "nome": "Periodicos",
+                                        "descricao": "Categoria de Periodicos"
+                                    }
+                                },
+                                "campos não enviados": {
+                                    "value": {
+                                        "nome": "",
+                                        "descricao": "Categoria de Periodicos"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item alterado com sucesso"
+                    },
+                    "400": {
+                        "description": "Campos não enviados"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Soft delete para categorias",
+                "summary": "Soft delete para categorias",
+                "tags": [
+                    "Categoria"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da categoria",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoria excluída com sucesso"
+                    },
+                    "404": {
+                        "description": "Categoria não encontrada ou já excluída"
+                    }
+                }
+            }
+        },
+        "/transactions": {
+            "post": {
+                "description": "Registrar uma transação",
+                "summary": "Registrar transação",
+                "tags": [
+                    "Transação"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Transação"
+                            },
+                            "examples": {
+                                "registrar": {
+                                    "value": {
+                                        "id_comprador": 4,
+                                        "id_vendedor": 1,
+                                        "id_item": 1,
+                                        "data_transacao": "2020-08-19",
+                                        "valor": 77.3
+                                    }
+                                },
+                                "campos não enviados": {
+                                    "value": {
+                                        "id_comprador": 4,
+                                        "id_vendedor": 1,
+                                        "id_item": 1,
+                                        "data_transacao": "",
+                                        "valor": 77.3
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transação registrada com sucesso"
+                    },
+                    "400": {
+                        "description": "Campos não enviados"
+                    }
+                }
+            },
+            "get": {
+                "description": "Lista de transações",
+                "summary": "Lista de transações",
+                "tags": [
+                    "Transação"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de transações"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "nome": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "ativo",
+                            "inativo"
+                        ]
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "enum": [
+                            "vendedor",
+                            "comprador",
+                            "administrador"
+                        ]
+                    },
+                    "senha": {
+                        "type": "string"
+                    },
+                    "area": {
+                        "type": "string"
+                    },
+                    "data_inicio": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            },
+            "Item": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "int"
+                    },
+                    "titulo": {
+                        "type": "string"
+                    },
+                    "autor": {
+                        "type": "string"
+                    },
+                    "descricao": {
+                        "type": "string"
+                    },
+                    "id_categoria": {
+                        "type": "int"
+                    },
+                    "preco": {
+                        "type": "float"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "ativo",
+                            "inativo",
+                            "fora de estoque",
+                            "estoque"
+                        ]
+                    },
+                    "data_edit": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "periodicidade": {
+                        "type": "int"
+                    },
+                    "id_vendedor": {
+                        "type": "int"
+                    }
+                }
+            },
+            "Categoria": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "int"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "descricao": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Transação": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "int"
+                    },
+                    "id_vendedor": {
+                        "type": "int"
+                    },
+                    "id_comprador": {
+                        "type": "int"
+                    },
+                    "id_item" : {
+                        "type": "int"
+                    },
+                    "data_transacao": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "valor": {
+                        "type": "float"
+                    }
+                }
+            }
+        }
+    }
+}
